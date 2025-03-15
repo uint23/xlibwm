@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 #include "structs.h"
+#include "parser.h"
 
 #define SCREEN_WIDTH    XDisplayWidth(dpy, DefaultScreen(dpy))
 #define SCREEN_HEIGHT   XDisplayHeight(dpy, DefaultScreen(dpy))
@@ -58,7 +59,7 @@ unsigned int CleanMask(unsigned int);
 void TileWindows(void);
 void CloseWindowUnderPointer(const Arg *);
 void SpawnWindow(const Arg *);
-void Quit(const Arg *);
+void Quit();
 
 // Client Management Functions
 void AddClient(Window);
@@ -109,9 +110,8 @@ Setup(void)
     normalColor.blue  = 0;
     normalColor.flags = DoRed | DoGreen | DoBlue;
 
-    if (!XAllocColor(dpy, colormap, &normalColor)) {
+    if (!XAllocColor(dpy, colormap, &normalColor))
         fprintf(stderr, "Error: Failed to allocate normal border color\n");
-    }
 
     // Initialize focus border color (green)
     focusColor.red   = 0;
@@ -119,9 +119,8 @@ Setup(void)
     focusColor.blue  = 0;
     focusColor.flags = DoRed | DoGreen | DoBlue;
 
-    if (!XAllocColor(dpy, colormap, &focusColor)) {
+    if (!XAllocColor(dpy, colormap, &focusColor))
         fprintf(stderr, "Error: Failed to allocate focus border color\n");
-    }
 }
 
 void
@@ -152,29 +151,29 @@ Cases(XEvent *e)
 {
     switch (e->type) {
 
-        case KeyPress:
-            HandleKeyPress(e);
-            break;
+	case KeyPress:
+		HandleKeyPress(e);
+		break;
 
-        case MapRequest:
-            ConfigureWindowRequest(e);
-            break;
+	case MapRequest:
+		ConfigureWindowRequest(e);
+		break;
 
-        case EnterNotify:
-            HandleEnterNotify(e);
-            break;
+	case EnterNotify:
+		HandleEnterNotify(e);
+		break;
 
-        case LeaveNotify:
-            HandleLeaveNotify(e);
-            break;
+	case LeaveNotify:
+		HandleLeaveNotify(e);
+		break;
 
-        case DestroyNotify:
-            RemoveClient(e->xdestroywindow.window);
-            TileWindows();
-            break;
+	case DestroyNotify:
+		RemoveClient(e->xdestroywindow.window);
+		TileWindows();
+		break;
 
-        default:
-            break;
+	default:
+		break;
     }
 }
 
@@ -282,7 +281,7 @@ CleanMask(unsigned int mask)
 void
 TileWindows(void)
 {
-    if (openWindows == 0) return;
+   if (openWindows == 0) return;
 
     Client *c;
     int i = 0;
@@ -427,7 +426,7 @@ SpawnWindow(const Arg *arg)
 }
 
 void
-Quit(const Arg *arg)
+Quit()
 {
     running = 0;
 }
@@ -511,29 +510,6 @@ Error(const char *ErrorMessage, int ERROR_CODE, int EXIT)
     if (EXIT)
         exit(ERROR_CODE);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int
 main(int argc, char *argv[])
