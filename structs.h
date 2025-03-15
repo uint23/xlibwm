@@ -4,19 +4,22 @@
 #define MOD Mod1Mask
 #define LENGTH(X) (sizeof X / sizeof X[0])
 
-typedef struct {
+typedef struct Arg
+{
     const char **cmd;
     int ops;
 } Arg;
 
-typedef struct {
+typedef struct Key
+{
     int mod;
     KeySym key;
     void (*fn) (const Arg *);
     Arg arg;
 } Key;
 
-typedef struct Client {
+typedef struct Client
+{
     Window window;
     struct Client *next;
 } Client;

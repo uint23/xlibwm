@@ -4,7 +4,7 @@ CFLAGS = -Wall -g
 LDFLAGS = -lX11 -lm
 
 # Target executable
-TARGET = main
+TARGET = xwm
 
 # Build the target executable
 all: $(TARGET)
